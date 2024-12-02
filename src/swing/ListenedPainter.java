@@ -13,7 +13,7 @@ import javax.swing.event.*;
 /**
  * This is a {@link Painter Painter} that has support for {@code 
  * PropertyChangeListener}s and other types of listeners.
- * @author WALLE1Doctor1Who
+ * @author Mosblinker
  * @param <T> The type for the optional configuration parameter.
  */
 public abstract class ListenedPainter<T> implements Painter<T> {

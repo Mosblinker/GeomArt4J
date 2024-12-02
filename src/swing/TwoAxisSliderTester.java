@@ -6,7 +6,7 @@ package swing;
 
 /**
  *
- * @author WALLE1Doctor1Who
+ * @author Mosblinker
  */
 public class TwoAxisSliderTester extends javax.swing.JFrame {
 

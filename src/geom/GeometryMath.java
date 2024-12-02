@@ -11,7 +11,7 @@ import java.util.function.DoubleUnaryOperator;
 
 /**
  * This is a library for math related to geometry.
- * @author WALLE1Doctor1Who
+ * @author Mosblinker
  */
 public final class GeometryMath {
     /**
