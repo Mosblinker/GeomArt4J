@@ -3,4 +3,4 @@
 
 This library requires my custom SwingExtended library, at least for the time being. This is mainly for the test program.
 
- SwingExtended: https://github.com/WALLE1Doctor1Who/SwingExtended
+ SwingExtended: https://github.com/Mosblinker/SwingExtended
