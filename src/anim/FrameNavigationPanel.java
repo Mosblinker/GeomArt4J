@@ -1,0 +1,254 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package anim;
+
+import event.DisabledComponentMouseListener;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.event.*;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.*;
+import javax.swing.event.*;
+
+/**
+ *
+ * @author Mosblinker
+ */
+public class FrameNavigationPanel extends JPanel{
+    
+    
+    
+    
+    protected JComponent createButtonSeparator(){
+        return new Box.Filler(new Dimension(7, 0), new Dimension(7, 0), 
+                new Dimension(7, 32767));
+    }
+    
+    private JButton createButton(FrameNavigation nav, String command, 
+            String toolTip, Handler handler, boolean show, boolean sepNext){
+        JButton button = new JButton(new FrameNavigationIcon(nav));
+        button.setActionCommand(command);
+        button.setToolTipText(toolTip);
+        button.addActionListener(handler);
+        button.addMouseListener(getDisabledComponentListener());
+        JComponent sep = createButtonSeparator();
+        buttonSeparators.put(button, sep);
+        if (!sepNext)
+            add(sep);
+        add(button);
+        if (sepNext)
+            add(sep);
+        button.setVisible(show);
+        sep.setVisible(show);
+        return button;
+    }
+    
+    private void initialize(){
+        setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
+        buttonSeparators = new HashMap<>();
+        Handler handler = new Handler();
+            // Create the first frame button
+        firstButton = createButton(FrameNavigation.FIRST,null,"First",handler,true,true);
+        firstButton.setEnabled(false);
+            // Create the previous frame button
+        prevButton = createButton(FrameNavigation.PREVIOUS,null,"Previous",handler,true,true);
+        prevButton.setEnabled(false);
+            // Create the play/pause button
+        playButton = new JToggleButton(new FrameNavigationIcon(FrameNavigation.PLAY));
+        playButton.setRolloverIcon(new FrameNavigationIcon(FrameNavigation.PLAY));
+        playButton.setSelectedIcon(new FrameNavigationIcon(FrameNavigation.PAUSE));
+//        playButton.setActionCommand(command);
+        playButton.setToolTipText("Play/Pause");
+        playButton.addActionListener(handler);
+        playButton.addMouseListener(getDisabledComponentListener());
+//        playButton.setEnabled(false);
+        JComponent playSep = createButtonSeparator();
+        buttonSeparators.put(playButton, playSep);
+            // Add the play/pause button to the panel
+//        playButton.setVisible(show);
+//        playSep.setVisible(playButton.isVisible());
+        add(playButton);
+        add(playSep);
+            // Create the frame slider
+        frameSlider = new JSlider();
+        frameSlider.setMajorTickSpacing(1);
+        frameSlider.setMaximum(0);
+        frameSlider.setPaintTicks(true);
+        frameSlider.addChangeListener(handler);
+            // Add the frame slider to the panel
+        add(frameSlider);
+            // Create the stop button
+        stopButton = createButton(FrameNavigation.STOP,null,"Stop",handler,true,false);
+        stopButton.setEnabled(false);
+            // Create the next frame button
+        nextButton = createButton(FrameNavigation.NEXT,null,"Next",handler,true,false);
+            // Create the last frame button
+        lastButton = createButton(FrameNavigation.LAST,null,"Last",handler,true,false);
+        lastButton.setEnabled(false);
+        
+        setButtonMargins(new Insets(2,0,2,0));
+    }
+    
+    public FrameNavigationPanel(){
+        initialize();
+    }
+    
+    
+    
+    
+    public void setButtonMargins(Insets margin){
+        buttonMargin = margin;
+        for (AbstractButton button : buttonSeparators.keySet())
+            button.setMargin(buttonMargin);
+    }
+    
+    public Insets getButtonMargins(){
+        return (buttonMargin == null) ? null : (Insets) buttonMargin.clone();
+    }
+    /**
+     * This returns the mouse listener used to cause disabled components to 
+     * provide error feedback to the user when they are pressed.
+     * @return The mouse listener used to make disabled components provide 
+     * error feedback when pressed.
+     */
+    protected MouseListener getDisabledComponentListener(){
+            // If the disabled component mouse listener has not been initialized 
+        if (disabledListener == null)   // yet
+            disabledListener = new DisabledComponentMouseListener();
+        return disabledListener;
+    }
+    /**
+     * This adds the given {@code ActionListener} to this panel.
+     * @param l The listener to add.
+     * @see #removeActionListener(ActionListener) 
+     * @see #getActionListeners() 
+     */
+    public void addActionListener(ActionListener l){
+        if (l != null)          // If the listener is not null
+            listenerList.add(ActionListener.class, l);
+    }
+    /**
+     * This removes the given {@code ActionListener} from this panel.
+     * @param l The listener to remove.
+     * @see #addActionListener(ActionListener) 
+     * @see #getActionListeners() 
+     */
+    public void removeActionListener(ActionListener l){
+        listenerList.remove(ActionListener.class, l);
+    }
+    /**
+     * This returns an array containing all the {@code ActionListener}s that 
+     * have been added to this panel.
+     * @return An array containing the {@code ActionListener}s that have been 
+     * added, or an empty array if none have been added.
+     * @see #addActionListener(ActionListener) 
+     * @see #removeActionListener(ActionListener) 
+     */
+    public ActionListener[] getActionListeners(){
+        return listenerList.getListeners(ActionListener.class);
+    }
+    /**
+     * This notifies all the {@code ActionListener}s that have been added to 
+     * this panel if the given {@code ActionEvent} is not null. If the source 
+     * of the given {@code ActionEvent} is not this panel, then the {@code 
+     * ActionEvent} will be redirected to have this panel as its source.
+     * @param evt The {@code ActionEvent} to fire.
+     * @see #addActionListener(ActionListener) 
+     * @see #removeActionListener(ActionListener) 
+     * @see #getActionListeners() 
+     * @see #fireActionPerformed(String, long, int) 
+     * @see #fireActionPerformed(String) 
+     */
+    protected void fireActionPerformed(ActionEvent evt){
+        if (evt == null)    // If the event is null
+            return;
+            // If the event's source is not this component
+        else if (evt.getSource() != this){
+            evt = new ActionEvent(this, evt.getID(), evt.getActionCommand(),
+                    evt.getWhen(),evt.getModifiers());
+        }
+            // A for loop to go through the action listeners
+        for (ActionListener l : listenerList.getListeners(ActionListener.class)){
+            if (l != null)  // If the listener is not null
+                l.actionPerformed(evt);
+        }
+    }
+    /**
+     * This notifies all the {@code ActionListener}s that have been added to 
+     * this panel of the given action command if the action command is not null. 
+     * @param command The action command for the action event to fire.
+     * @param when The time at which the event occurred.
+     * @param modifiers The modifier keys that were down during the event. Zero 
+     * indicates that no known modifiers were passed.
+     * @see #addActionListener(ActionListener) 
+     * @see #removeActionListener(ActionListener) 
+     * @see #getActionListeners() 
+     * @see #fireActionPerformed(ActionEvent) 
+     * @see #fireActionPerformed(String) 
+     */
+    protected void fireActionPerformed(String command, long when, int modifiers){
+        if (command == null)    // If the action command is null.
+            return;
+        fireActionPerformed(new ActionEvent(this,ActionEvent.ACTION_PERFORMED,
+                command,when,modifiers));
+    }
+    /**
+     * This notifies all the {@code ActionListener}s that have been added to 
+     * this panel of the given action command if the action command is not null. 
+     * @param command The action command for the action event to fire.
+     * @see #addActionListener(ActionListener) 
+     * @see #removeActionListener(ActionListener) 
+     * @see #getActionListeners() 
+     * @see #fireActionPerformed(ActionEvent) 
+     * @see #fireActionPerformed(String, long, int) 
+     */
+    protected void fireActionPerformed(String command){
+        fireActionPerformed(command,System.currentTimeMillis(),0);
+    }
+    
+    
+    
+    
+    /**
+     * This is used to provide error feedback to the user when this is disabled. 
+     * This is initialized the first time it is requested.
+     */
+    private DisabledComponentMouseListener disabledListener = null;
+    
+    
+    
+    private Insets buttonMargin = null;
+    
+    protected Map<AbstractButton,JComponent> buttonSeparators;
+    
+    protected JButton firstButton;
+    
+    protected JButton prevButton;
+    
+    protected JButton nextButton;
+    
+    protected JButton lastButton;
+    
+    protected JToggleButton playButton;
+    
+    protected JButton stopButton;
+    
+    protected JSlider frameSlider;
+    
+    private class Handler implements ChangeListener, ActionListener{
+
+        @Override
+        public void stateChanged(ChangeEvent evt) {
+            
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            
+        }
+        
+    }
+}
