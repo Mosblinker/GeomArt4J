@@ -539,8 +539,14 @@ public class FrameNavigationPanel extends JPanel{
 
         @Override
         public void actionPerformed(ActionEvent evt) {
-            
+            if (evt.getActionCommand() == null)
+                return;
+            FrameNavigation nav = null;
+            try{
+                nav = FrameNavigation.valueOf(evt.getActionCommand());
+            } catch (IllegalArgumentException ex){ }
+            if (nav != null)
+                doAction(nav,getFrameButtonsLoop());
         }
-        
     }
 }
