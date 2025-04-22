@@ -140,6 +140,48 @@ public class FrameNavigationPanel extends JPanel{
         return (buttonMargin == null) ? null : (Insets) buttonMargin.clone();
     }
     /**
+     * 
+     * @param value 
+     */
+    public void setValue(int value){
+        frameSlider.setValue(value);
+    }
+    /**
+     * 
+     * @return 
+     */
+    public int getValue(){
+        return frameSlider.getValue();
+    }
+    /**
+     * 
+     * @param minimum 
+     */
+    public void setMinimum(int minimum){
+        frameSlider.setMinimum(minimum);
+    }
+    /**
+     * 
+     * @return 
+     */
+    public int getMinimum(){
+        return frameSlider.getMinimum();
+    }
+    /**
+     * 
+     * @param maximum 
+     */
+    public void setMaximum(int maximum){
+        frameSlider.setMaximum(maximum);
+    }
+    /**
+     * 
+     * @return 
+     */
+    public int getMaximum(){
+        return frameSlider.getMaximum();
+    }
+    /**
      * This returns the mouse listener used to cause disabled components to 
      * provide error feedback to the user when they are pressed.
      * @return The mouse listener used to make disabled components provide 
