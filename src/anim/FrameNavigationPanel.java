@@ -10,6 +10,7 @@ import java.awt.Insets;
 import java.awt.event.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import javax.swing.*;
 import javax.swing.event.*;
 
@@ -294,6 +295,36 @@ public class FrameNavigationPanel extends JPanel{
         playButton.setSelected(false);
         updateFrameNavigation();
         toFirstFrame();
+    }
+    
+    public void doAction(FrameNavigation nav, boolean loop){
+        Objects.requireNonNull(nav);
+        switch(nav){
+            case NEXT:
+                toNextFrame(loop);
+                return;
+            case PREVIOUS:
+                toPreviousFrame(loop);
+                return;
+            case FIRST:
+                toFirstFrame();
+                return;
+            case LAST:
+                toLastFrame();
+                return;
+            case PLAY:
+                play();
+                return;
+            case PAUSE:
+                pause();
+                return;
+            case STOP:
+                stop();
+        }
+    }
+    
+    public void doAction(FrameNavigation nav){
+        doAction(nav,false);
     }
     /**
      * This returns the mouse listener used to cause disabled components to 
