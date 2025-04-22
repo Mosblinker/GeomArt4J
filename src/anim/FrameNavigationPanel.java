@@ -234,6 +234,13 @@ public class FrameNavigationPanel extends JPanel{
         return getNavFlag(PREVIOUS_BUTTON_ADDS_FRAME_FLAG);
     }
     /**
+     * 
+     * @param evt 
+     */
+    protected void frameChanged(){
+        
+    }
+    /**
      * This returns the mouse listener used to cause disabled components to 
      * provide error feedback to the user when they are pressed.
      * @return The mouse listener used to make disabled components provide 
@@ -439,7 +446,9 @@ public class FrameNavigationPanel extends JPanel{
 
         @Override
         public void stateChanged(ChangeEvent evt) {
-            
+            updateFrameNavigation();
+            frameChanged();
+            fireStateChanged();
         }
 
         @Override
