@@ -380,20 +380,19 @@ public class FrameNavigationPanel extends JPanel{
      * 
      */
     protected void updateFrameNavigation(){
-        playButton.setEnabled(isEnabled() && 
-                (frameSlider.getMaximum() - frameSlider.getMinimum()) > 0);
+        playButton.setEnabled(isEnabled() && getFrameCount() > 1);
         stopButton.setEnabled(playButton.isEnabled() && 
                 playButton.isSelected());
         frameSlider.setEnabled(playButton.isEnabled() && 
                 !playButton.isSelected());
-        boolean backEnabled = frameSlider.getValue() > frameSlider.getMinimum();
-        boolean forEnabled = frameSlider.getValue() < frameSlider.getMaximum();
-        boolean canLoop = getNavFlag(FRAME_BUTTONS_LOOP_FLAG);
+        boolean backEnabled = getValue() > getMinimum();
+        boolean forEnabled = getValue() < getMaximum();
+        boolean canLoop = getFrameButtonsLoop();
         prevButton.setEnabled(frameSlider.isEnabled() && (backEnabled || 
-                canLoop || getNavFlag(PREVIOUS_BUTTON_ADDS_FRAME_FLAG)));
+                canLoop || getPreviousButtonAddsFrames()));
         firstButton.setEnabled(frameSlider.isEnabled() && backEnabled);
         nextButton.setEnabled(frameSlider.isEnabled() && (forEnabled || canLoop 
-                || getNavFlag(NEXT_BUTTON_ADDS_FRAME_FLAG)));
+                || getNextButtonAddsFrames()));
         lastButton.setEnabled(frameSlider.isEnabled() && forEnabled);
     }
     /**
