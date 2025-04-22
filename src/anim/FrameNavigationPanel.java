@@ -59,10 +59,8 @@ public class FrameNavigationPanel extends JPanel{
         Handler handler = new Handler();
             // Create the first frame button
         firstButton = createButton(FrameNavigation.FIRST,null,"First",handler,true,true);
-        firstButton.setEnabled(false);
             // Create the previous frame button
         prevButton = createButton(FrameNavigation.PREVIOUS,null,"Previous",handler,true,true);
-        prevButton.setEnabled(false);
             // Create the play/pause button
         playButton = new JToggleButton(new FrameNavigationIcon(FrameNavigation.PLAY));
         playButton.setRolloverIcon(new FrameNavigationIcon(FrameNavigation.PLAY));
@@ -89,21 +87,32 @@ public class FrameNavigationPanel extends JPanel{
         add(frameSlider);
             // Create the stop button
         stopButton = createButton(FrameNavigation.STOP,null,"Stop",handler,true,false);
-        stopButton.setEnabled(false);
             // Create the next frame button
         nextButton = createButton(FrameNavigation.NEXT,null,"Next",handler,true,false);
-        nextButton.setEnabled(false);
             // Create the last frame button
         lastButton = createButton(FrameNavigation.LAST,null,"Last",handler,true,false);
-        lastButton.setEnabled(false);
         
         setButtonMargins(new Insets(2,0,2,0));
+        updateFrameControls();
     }
     
     public FrameNavigationPanel(){
         initialize();
     }
     
+    private void setNavFlag(int flag, boolean value, String propName){
+            // If the flag is already set to the desired value.
+        if (getNavFlag(flag) == value)    
+            return;
+            // If the flag is to be set, then set it. Otherwise, clear it
+        navFlags = (value)?(navFlags|flag):Math.max(0,navFlags&~flag);
+        if (propName != null)
+            firePropertyChange(propName,!value,value);
+    }
+    
+    private boolean getNavFlag(int flag){
+        return (navFlags & flag) == flag;
+    }
     
     
     
