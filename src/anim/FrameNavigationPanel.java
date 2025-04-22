@@ -182,6 +182,13 @@ public class FrameNavigationPanel extends JPanel{
         return frameSlider.getMaximum();
     }
     /**
+     * 
+     * @return 
+     */
+    public int getFrameCount(){
+        return getMaximum() - getMinimum() + 1;
+    }
+    /**
      * This returns the mouse listener used to cause disabled components to 
      * provide error feedback to the user when they are pressed.
      * @return The mouse listener used to make disabled components provide 
