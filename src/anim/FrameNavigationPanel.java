@@ -22,6 +22,13 @@ public class FrameNavigationPanel extends JPanel{
     
     
     
+    
+    protected static final int FRAME_BUTTONS_LOOP_FLAG = 0x0001;
+    
+    protected static final int NEXT_BUTTON_ADDS_FRAME_FLAG = 0x0002;
+    
+    protected static final int PREVIOUS_BUTTON_ADDS_FRAME_FLAG = 0x0004;
+    
     protected JComponent createButtonSeparator(){
         return new Box.Filler(new Dimension(7, 0), new Dimension(7, 0), 
                 new Dimension(7, 32767));
@@ -263,6 +270,8 @@ public class FrameNavigationPanel extends JPanel{
     private DisabledComponentMouseListener disabledListener = null;
     
     
+    
+    private int navFlags = 0x0000;
     
     private Insets buttonMargin = null;
     
