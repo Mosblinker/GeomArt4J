@@ -141,10 +141,23 @@ public class FrameNavigationPanel extends JPanel{
     }
     /**
      * 
+     * @param value
+     * @param loop 
+     */
+    protected void setValue(int value, boolean loop){
+        if (loop){
+            int size = getFrameCount();
+            int temp = value - getMinimum();
+            value = ((size+temp)%size)+getMinimum();
+        }
+        frameSlider.setValue(value);
+    }
+    /**
+     * 
      * @param value 
      */
     public void setValue(int value){
-        frameSlider.setValue(value);
+        setValue(value,false);
     }
     /**
      * 
@@ -235,7 +248,6 @@ public class FrameNavigationPanel extends JPanel{
     }
     /**
      * 
-     * @param evt 
      */
     protected void frameChanged(){
         
