@@ -280,6 +280,21 @@ public class FrameNavigationPanel extends JPanel{
     public void toLastFrame(){
         setValue(getMaximum());
     }
+    
+    public void play(){
+        // Insert Play code
+    }
+    
+    public void pause(){
+        // Insert Pause code
+    }
+    
+    public void stop(){
+        // Insert Stop code
+        playButton.setSelected(false);
+        updateFrameNavigation();
+        toFirstFrame();
+    }
     /**
      * This returns the mouse listener used to cause disabled components to 
      * provide error feedback to the user when they are pressed.
