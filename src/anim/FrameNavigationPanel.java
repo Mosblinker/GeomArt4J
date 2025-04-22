@@ -62,14 +62,19 @@ public class FrameNavigationPanel extends JPanel{
         return button;
     }
     
+    private JButton createButton(FrameNavigation nav, String toolTip, 
+            Handler handler, boolean show, boolean sepNext){
+        return createButton(nav,nav.name(),toolTip,handler,show,sepNext);
+    }
+    
     private void initialize(){
         setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
         buttonSeparators = new HashMap<>();
         Handler handler = new Handler();
             // Create the first frame button
-        firstButton = createButton(FrameNavigation.FIRST,null,"First",handler,true,true);
+        firstButton = createButton(FrameNavigation.FIRST,"First",handler,true,true);
             // Create the previous frame button
-        prevButton = createButton(FrameNavigation.PREVIOUS,null,"Previous",handler,true,true);
+        prevButton = createButton(FrameNavigation.PREVIOUS,"Previous",handler,true,true);
             // Create the play/pause button
         playButton = new JToggleButton(new FrameNavigationIcon(FrameNavigation.PLAY));
         playButton.setRolloverIcon(new FrameNavigationIcon(FrameNavigation.PLAY));
@@ -95,11 +100,11 @@ public class FrameNavigationPanel extends JPanel{
             // Add the frame slider to the panel
         add(frameSlider);
             // Create the stop button
-        stopButton = createButton(FrameNavigation.STOP,null,"Stop",handler,true,false);
+        stopButton = createButton(FrameNavigation.STOP,"Stop",handler,true,false);
             // Create the next frame button
-        nextButton = createButton(FrameNavigation.NEXT,null,"Next",handler,true,false);
+        nextButton = createButton(FrameNavigation.NEXT,"Next",handler,true,false);
             // Create the last frame button
-        lastButton = createButton(FrameNavigation.LAST,null,"Last",handler,true,false);
+        lastButton = createButton(FrameNavigation.LAST,"Last",handler,true,false);
         
         setButtonMargins(new Insets(2,0,2,0));
         updateFrameNavigation();
