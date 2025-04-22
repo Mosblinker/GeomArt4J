@@ -275,6 +275,7 @@ public class FrameNavigationPanel extends JPanel{
     }
     
     protected void doAnimationTimer(ActionEvent evt){
+        toNextFrame(true);
         // Insert Animation Timer code
     }
     
@@ -303,15 +304,20 @@ public class FrameNavigationPanel extends JPanel{
     }
     
     public void play(){
+        animTimer.restart();
+        updateFrameNavigation();
         // Insert Play code
     }
     
     public void pause(){
+        animTimer.stop();
+        updateFrameNavigation();
         // Insert Pause code
     }
     
     public void stop(){
         // Insert Stop code
+        animTimer.stop();
         playButton.setSelected(false);
         updateFrameNavigation();
         toFirstFrame();
@@ -567,6 +573,12 @@ public class FrameNavigationPanel extends JPanel{
             try{
                 nav = FrameNavigation.valueOf(evt.getActionCommand());
             } catch (IllegalArgumentException ex){ }
+            if (nav == null && evt.getSource() == playButton){
+                if (playButton.isSelected())
+                    nav = FrameNavigation.PLAY;
+                else
+                    nav = FrameNavigation.PAUSE;
+            }
             if (nav != null)
                 doAction(nav,getFrameButtonsLoop());
             else if (ANIMATION_TIMER_COMMAND.equals(evt.getActionCommand()))
