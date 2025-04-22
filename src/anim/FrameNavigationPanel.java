@@ -85,6 +85,7 @@ public class FrameNavigationPanel extends JPanel{
         stopButton.setEnabled(false);
             // Create the next frame button
         nextButton = createButton(FrameNavigation.NEXT,null,"Next",handler,true,false);
+        nextButton.setEnabled(false);
             // Create the last frame button
         lastButton = createButton(FrameNavigation.LAST,null,"Last",handler,true,false);
         lastButton.setEnabled(false);
