@@ -21,7 +21,14 @@ public class FrameNavigationPanel extends JPanel{
     
     
     
+    public static final String FRAME_BUTTONS_LOOP_PROPERTY_CHANGED = 
+            "FrameButtonsLoopPropertyChanged";
     
+    public static final String NEXT_BUTTON_CAN_ADD_FRAMES_PROPERTY_CHANGED = 
+            "NextButtonAddsFramesPropertyChanged";
+    
+    public static final String PREVIOUS_BUTTON_CAN_ADD_FRAMES_PROPERTY_CHANGED = 
+            "PreviousButtonAddsFramesPropertyChanged";
     
     protected static final int FRAME_BUTTONS_LOOP_FLAG = 0x0001;
     
