@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package anim;
+package swing;
 
 /**
  *
@@ -26,9 +26,11 @@ public class FrameNavigationPanelTester extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        frameNavigationPanel1 = new anim.FrameNavigationPanel();
+        frameNavigationPanel1 = new swing.FrameNavigationPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        frameNavigationPanel1.setMaximum(20);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -86,6 +88,6 @@ public class FrameNavigationPanelTester extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private anim.FrameNavigationPanel frameNavigationPanel1;
+    private swing.FrameNavigationPanel frameNavigationPanel1;
     // End of variables declaration//GEN-END:variables
 }

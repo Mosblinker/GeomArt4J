@@ -41,7 +41,10 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="anim.FrameNavigationPanel" name="frameNavigationPanel1">
+    <Component class="swing.FrameNavigationPanel" name="frameNavigationPanel1">
+      <Properties>
+        <Property name="maximum" type="int" value="20"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>
