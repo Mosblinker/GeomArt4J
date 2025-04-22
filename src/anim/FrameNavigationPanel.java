@@ -30,11 +30,13 @@ public class FrameNavigationPanel extends JPanel{
     public static final String PREVIOUS_BUTTON_CAN_ADD_FRAMES_PROPERTY_CHANGED = 
             "PreviousButtonAddsFramesPropertyChanged";
     
-    protected static final int FRAME_BUTTONS_LOOP_FLAG = 0x0001;
+    protected static final int FRAME_BUTTONS_LOOP_FLAG = 0x0002;
     
-    protected static final int NEXT_BUTTON_ADDS_FRAME_FLAG = 0x0002;
+    protected static final int NEXT_BUTTON_ADDS_FRAME_FLAG = 0x0004;
     
-    protected static final int PREVIOUS_BUTTON_ADDS_FRAME_FLAG = 0x0004;
+    protected static final int PREVIOUS_BUTTON_ADDS_FRAME_FLAG = 0x0008;
+    
+    
     
     protected JComponent createButtonSeparator(){
         return new Box.Filler(new Dimension(7, 0), new Dimension(7, 0), 
