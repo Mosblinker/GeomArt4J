@@ -259,8 +259,42 @@ public class FrameNavigationPanel extends JPanel{
                 l.stateChanged(evt);
         }
     }
-    
-    
+    /**
+     * 
+     */
+    protected void updateFrameNavigation(){
+        boolean backEnabled = frameSlider.getValue() > frameSlider.getMinimum();
+        boolean forEnabled = frameSlider.getValue() < frameSlider.getMaximum();
+        boolean canLoop = getNavFlag(FRAME_BUTTONS_LOOP_FLAG);
+        prevButton.setEnabled(frameSlider.isEnabled() && (backEnabled || 
+                canLoop || getNavFlag(PREVIOUS_BUTTON_ADDS_FRAME_FLAG)));
+        firstButton.setEnabled(frameSlider.isEnabled() && backEnabled);
+        nextButton.setEnabled(frameSlider.isEnabled() && (forEnabled || canLoop 
+                || getNavFlag(NEXT_BUTTON_ADDS_FRAME_FLAG)));
+        lastButton.setEnabled(frameSlider.isEnabled() && forEnabled);
+    }
+    /**
+     * 
+     */
+    protected void updateFrameControls(){
+        playButton.setEnabled(isEnabled() && 
+                (frameSlider.getMaximum() - frameSlider.getMinimum()) > 0);
+        stopButton.setEnabled(playButton.isEnabled() && 
+                playButton.isSelected());
+        frameSlider.setEnabled(playButton.isEnabled() && 
+                !playButton.isSelected());
+        updateFrameNavigation();
+    }
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void setEnabled(boolean enabled){
+        super.setEnabled(enabled);
+        try{
+            updateFrameControls();
+        } catch (NullPointerException ex){ }
+    }
     
     
     /**
