@@ -252,6 +252,10 @@ public class FrameNavigationPanel extends JPanel{
     protected void frameChanged(){
         
     }
+    
+    protected void doAnimationTimer(ActionEvent evt){
+        // Insert Animation Timer code
+    }
     /**
      * This returns the mouse listener used to cause disabled components to 
      * provide error feedback to the user when they are pressed.
