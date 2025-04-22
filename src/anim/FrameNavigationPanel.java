@@ -189,6 +189,51 @@ public class FrameNavigationPanel extends JPanel{
         return getMaximum() - getMinimum() + 1;
     }
     /**
+     * 
+     * @param value 
+     */
+    public void setFrameButtonsLoop(boolean value){
+        setNavFlag(FRAME_BUTTONS_LOOP_FLAG,value,
+                FRAME_BUTTONS_LOOP_PROPERTY_CHANGED);
+    }
+    /**
+     * 
+     * @return 
+     */
+    public boolean getFrameButtonsLoop(){
+        return getNavFlag(FRAME_BUTTONS_LOOP_FLAG);
+    }
+    /**
+     * 
+     * @param value 
+     */
+    public void setNextButtonAddsFrames(boolean value){
+        setNavFlag(NEXT_BUTTON_ADDS_FRAME_FLAG,value,
+                NEXT_BUTTON_CAN_ADD_FRAMES_PROPERTY_CHANGED);
+    }
+    /**
+     * 
+     * @return 
+     */
+    public boolean getNextButtonAddsFrames(){
+        return getNavFlag(NEXT_BUTTON_ADDS_FRAME_FLAG);
+    }
+    /**
+     * 
+     * @param value 
+     */
+    public void setPreviousButtonAddsFrames(boolean value){
+        setNavFlag(PREVIOUS_BUTTON_ADDS_FRAME_FLAG,value,
+                PREVIOUS_BUTTON_CAN_ADD_FRAMES_PROPERTY_CHANGED);
+    }
+    /**
+     * 
+     * @return 
+     */
+    public boolean getPreviousButtonAddsFrames(){
+        return getNavFlag(PREVIOUS_BUTTON_ADDS_FRAME_FLAG);
+    }
+    /**
      * This returns the mouse listener used to cause disabled components to 
      * provide error feedback to the user when they are pressed.
      * @return The mouse listener used to make disabled components provide 
