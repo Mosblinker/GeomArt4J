@@ -21,7 +21,10 @@ import javax.swing.event.*;
  */
 public class FrameNavigationPanel extends JPanel{
     
+    public static final String ANIMATION_TIMER_COMMAND = "AnimationTimer";
     
+    public static final String FRAME_DURATION_PROPERTY_CHANGED = 
+            "FrameDurationPropertyChanged";
     
     public static final String FRAME_BUTTONS_LOOP_PROPERTY_CHANGED = 
             "FrameButtonsLoopPropertyChanged";
@@ -109,6 +112,9 @@ public class FrameNavigationPanel extends JPanel{
         lastButton = createButton(FrameNavigation.LAST,"Last",handler,true,false);
         
         setButtonMargins(new Insets(2,0,2,0));
+        animTimer = new Timer(100,handler);
+        animTimer.setActionCommand(ANIMATION_TIMER_COMMAND);
+        
         updateFrameNavigation();
     }
     
@@ -140,6 +146,19 @@ public class FrameNavigationPanel extends JPanel{
     
     public Insets getButtonMargins(){
         return (buttonMargin == null) ? null : (Insets) buttonMargin.clone();
+    }
+    
+    public int getFrameDuration(){
+        return animTimer.getDelay();
+    }
+    
+    public void setFrameDuration(int delay){
+        int old = getFrameDuration();
+        if (delay != old){
+            animTimer.setDelay(delay);
+            animTimer.setInitialDelay(delay);
+            firePropertyChange(FRAME_DURATION_PROPERTY_CHANGED,old,delay);
+        }
     }
     /**
      * 
@@ -513,6 +532,8 @@ public class FrameNavigationPanel extends JPanel{
     
     private Insets buttonMargin = null;
     
+    protected Timer animTimer;
+    
     protected Map<AbstractButton,JComponent> buttonSeparators;
     
     protected JButton firstButton;
@@ -548,6 +569,8 @@ public class FrameNavigationPanel extends JPanel{
             } catch (IllegalArgumentException ex){ }
             if (nav != null)
                 doAction(nav,getFrameButtonsLoop());
+            else if (ANIMATION_TIMER_COMMAND.equals(evt.getActionCommand()))
+                doAnimationTimer(evt);
         }
     }
 }
