@@ -839,15 +839,18 @@ public final class GeometryMath {
             // If the given CubicCurve2D object is null
         if (curve == null)
             curve = new CubicCurve2D.Double();
-            // This will get the first control point for the curve
-        Point2D pC1 = new Point2D.Double();
-            // This will get the second control point for the curve
-        Point2D pC2 = new Point2D.Double();
-            // Get the control points for the curve
-        getCubicBezierControlPoints(p0,p1,p2,p3,pC1,pC2);
-            // Set the curve to be between points p0 and p3, using the control 
-            // points pC1 and pC2.
-        curve.setCurve(p0, pC1, pC2, p3);
+            // Set the curve to be between points p0 and p3, and calculating 
+            // the control points for the curve
+        curve.setCurve(p0.getX(),p0.getY(),
+                    // Get the x-coordinate for the first control point
+                getCubicBezierCtrlP1(p0.getX(),p1.getX(),p2.getX(),p3.getX()),
+                    // Get the y-coordinate for the first control point
+                getCubicBezierCtrlP1(p0.getY(),p1.getY(),p2.getY(),p3.getY()),
+                    // Get the x-coordinate for the second control point
+                getCubicBezierCtrlP2(p0.getX(),p1.getX(),p2.getX(),p3.getX()),
+                    // Get the y-coordinate for the second control point
+                getCubicBezierCtrlP2(p0.getY(),p1.getY(),p2.getY(),p3.getY()),
+                p3.getX(),p3.getY());
         return curve;
     }
     /**
