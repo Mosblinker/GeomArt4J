@@ -766,7 +766,7 @@ public final class GeometryMath {
                 p2.getX(),p2.getY(),src,curve);
     }
     /**
-     * This is used to calculate the first control point on a cubic Bezier curve 
+     * This is used to calculate a control point on a cubic Bezier curve 
      * when p1 is 1/3 and p2 is 2/3 of the way. <p>
      * 
      * https://web.archive.org/web/20131225210855/http://people.sc.fsu.edu/~jburkardt/html/bezier_interpolation.html
@@ -775,27 +775,11 @@ public final class GeometryMath {
      * @param p1 The first point on the curve to pass through (1/3)
      * @param p2 The second point on the curve to pass through (2/3)
      * @param p3 The end point of the curve.
-     * @return The first control point on the curve.
+     * @return A control point on the curve.
      */
-    private static double getCubicBezierCtrlP1(double p0, double p1, 
+    private static double getCubicBezierCtrlPointHelper(double p0, double p1, 
             double p2, double p3){
         return (-5*p0+18*p1-9*p2+2*p3)/6.0;
-    }
-    /**
-     * This is used to calculate the second control point on a cubic Bezier 
-     * curve when p1 is 1/3 and p2 is 2/3 of the way. <p>
-     * 
-     * https://web.archive.org/web/20131225210855/http://people.sc.fsu.edu/~jburkardt/html/bezier_interpolation.html
-     * 
-     * @param p0 The starting point of the curve.
-     * @param p1 The first point on the curve to pass through (1/3)
-     * @param p2 The second point on the curve to pass through (2/3)
-     * @param p3 The end point of the curve.
-     * @return The second control point on the curve.
-     */
-    private static double getCubicBezierCtrlP2(double p0, double p1, 
-            double p2, double p3){
-        return (2*p0-9*p1+18*p2-5*p3)/6.0;
     }
     /**
      * 
@@ -813,13 +797,13 @@ public final class GeometryMath {
     public static void getCubicBezierControlPoints(Point2D p0, Point2D p1, 
             Point2D p2, Point2D p3, Point2D controlP1, Point2D controlP2){
             // Get the x-coordinate for the first control point
-        double x1 = getCubicBezierCtrlP1(p0.getX(),p1.getX(),p2.getX(),p3.getX());
-            // Get the x-coordinate for the second control point
-        double x2 = getCubicBezierCtrlP2(p0.getX(),p1.getX(),p2.getX(),p3.getX());
+        double x1 = getCubicBezierCtrlPointHelper(p0.getX(),p1.getX(),p2.getX(),p3.getX());
             // Get the y-coordinate for the first control point
-        double y1 = getCubicBezierCtrlP1(p0.getY(),p1.getY(),p2.getY(),p3.getY());
+        double y1 = getCubicBezierCtrlPointHelper(p0.getY(),p1.getY(),p2.getY(),p3.getY());
+            // Get the x-coordinate for the second control point
+        double x2 = getCubicBezierCtrlPointHelper(p3.getX(),p2.getX(),p1.getX(),p0.getX());
             // Get the y-coordinate for the second control point
-        double y2 = getCubicBezierCtrlP2(p0.getY(),p1.getY(),p2.getY(),p3.getY());
+        double y2 = getCubicBezierCtrlPointHelper(p3.getY(),p2.getY(),p1.getY(),p0.getY());
         controlP1.setLocation(x1,y1);
         controlP2.setLocation(x2,y2);
     }
@@ -842,14 +826,10 @@ public final class GeometryMath {
             // Set the curve to be between points p0 and p3, and calculating 
             // the control points for the curve
         curve.setCurve(p0.getX(),p0.getY(),
-                    // Get the x-coordinate for the first control point
-                getCubicBezierCtrlP1(p0.getX(),p1.getX(),p2.getX(),p3.getX()),
-                    // Get the y-coordinate for the first control point
-                getCubicBezierCtrlP1(p0.getY(),p1.getY(),p2.getY(),p3.getY()),
-                    // Get the x-coordinate for the second control point
-                getCubicBezierCtrlP2(p0.getX(),p1.getX(),p2.getX(),p3.getX()),
-                    // Get the y-coordinate for the second control point
-                getCubicBezierCtrlP2(p0.getY(),p1.getY(),p2.getY(),p3.getY()),
+                    getCubicBezierCtrlPointHelper(p0.getX(),p1.getX(),p2.getX(),p3.getX()),
+                    getCubicBezierCtrlPointHelper(p0.getY(),p1.getY(),p2.getY(),p3.getY()),
+                    getCubicBezierCtrlPointHelper(p3.getX(),p2.getX(),p1.getX(),p0.getX()),
+                    getCubicBezierCtrlPointHelper(p3.getY(),p2.getY(),p1.getY(),p0.getY()),
                 p3.getX(),p3.getY());
         return curve;
     }
