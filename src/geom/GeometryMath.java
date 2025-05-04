@@ -812,12 +812,16 @@ public final class GeometryMath {
      */
     public static void getCubicBezierControlPoints(Point2D p0, Point2D p1, 
             Point2D p2, Point2D p3, Point2D controlP1, Point2D controlP2){
+            // Get the x-coordinate for the first control point
+        double x1 = getCubicBezierCtrlP1(p0.getX(),p1.getX(),p2.getX(),p3.getX());
+            // Get the x-coordinate for the second control point
+        double x2 = getCubicBezierCtrlP2(p0.getX(),p1.getX(),p2.getX(),p3.getX());
             // Get the y-coordinate for the first control point
         double y1 = getCubicBezierCtrlP1(p0.getY(),p1.getY(),p2.getY(),p3.getY());
             // Get the y-coordinate for the second control point
         double y2 = getCubicBezierCtrlP2(p0.getY(),p1.getY(),p2.getY(),p3.getY());
-        controlP1.setLocation(p1.getX(),y1);
-        controlP2.setLocation(p2.getX(),y2);
+        controlP1.setLocation(x1,y1);
+        controlP2.setLocation(x2,y2);
     }
     /**
      * 
