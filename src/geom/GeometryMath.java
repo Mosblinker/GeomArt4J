@@ -1368,7 +1368,7 @@ public final class GeometryMath {
      * @return The value for the square wave at {@code x}, 0 for high, -2 for 
      * low, and -1 for discontinuities.
      */
-    private double getSquareWaveImpl(double freq, double x){
+    private static double getSquareWaveImpl(double freq, double x){
         return (2 * Math.floor(x/2 * freq) - Math.floor(x*freq));
     }
     /**
@@ -1380,7 +1380,7 @@ public final class GeometryMath {
      * for any discontinuities.
      * @see #isSquareWaveHigh(double, double) 
      */
-    public double getSquareWave(double freq, double x){
+    public static double getSquareWave(double freq, double x){
         return getSquareWaveImpl(freq,x) + 1;
     }
     /**
@@ -1392,7 +1392,7 @@ public final class GeometryMath {
      * square wave is low or is at a discontinuity.
      * @see #getSquareWave(double, double) 
      */
-    public boolean isSquareWaveHigh(double freq, double x){
+    public static boolean isSquareWaveHigh(double freq, double x){
         return getSquareWaveImpl(freq,x) == 0;
     }
     
