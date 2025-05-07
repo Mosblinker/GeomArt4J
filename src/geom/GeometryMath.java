@@ -1360,6 +1360,41 @@ public final class GeometryMath {
         return getLinePointForY(line.getX1(),line.getY1(),
                 line.getX2(),line.getY2(),y,point);
     }
+    /**
+     * This calculates the result of a square wave with the given frequency. The 
+     * value returned will be within the range of 0 and -2.
+     * @param freq The frequency for the square wave.
+     * @param x The point on the square wave to get.
+     * @return The value for the square wave at {@code x}, 0 for high, -2 for 
+     * low, and -1 for discontinuities.
+     */
+    private double getSquareWaveImpl(double freq, double x){
+        return (2 * Math.floor(x/2 * freq) - Math.floor(x*freq));
+    }
+    /**
+     * This returns the value for the square wave with the given frequency for 
+     * the given point {@code x}.
+     * @param freq The frequency of the square wave.
+     * @param x The point on the square wave to get.
+     * @return 1 if the square wave is high, -1 if the square wave is low, and 0 
+     * for any discontinuities.
+     * @see #isSquareWaveHigh(double, double) 
+     */
+    public double getSquareWave(double freq, double x){
+        return getSquareWaveImpl(freq,x) + 1;
+    }
+    /**
+     * This returns whether the square wave with the given frequency is high for 
+     * the given point {@code x}.
+     * @param freq The frequency of the square wave.
+     * @param x The point on the square wave to get.
+     * @return {@code true} if the square wave is high, {@code false} if the 
+     * square wave is low or is at a discontinuity.
+     * @see #getSquareWave(double, double) 
+     */
+    public boolean isSquareWaveHigh(double freq, double x){
+        return getSquareWaveImpl(freq,x) == 0;
+    }
     
     
     
