@@ -1411,6 +1411,9 @@ public final class GeometryMath implements GeometryMathConstants{
      * @see #HALF_PI
      */
     public static double boundDegrees(double angle){
+            // If the angle is already within range
+        if (angle >= 0.0 && angle < FULL_CIRCLE_DEGREES)
+            return angle;
         return ((angle % FULL_CIRCLE_DEGREES) + FULL_CIRCLE_DEGREES) % 
                 FULL_CIRCLE_DEGREES;
     }
@@ -1430,6 +1433,9 @@ public final class GeometryMath implements GeometryMathConstants{
      * @see #HALF_PI
      */
     public static double boundRadians(double angle){
+            // If the angle is already within range
+        if (angle >= 0.0 && angle < TWO_PI)
+            return angle;
         return ((angle % TWO_PI) + TWO_PI) % TWO_PI;
     }
     
