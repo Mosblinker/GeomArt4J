@@ -88,7 +88,6 @@ public class FrameNavigationPanel extends JPanel{
         playButton.setToolTipText("Play/Pause");
         playButton.addActionListener(handler);
         playButton.addMouseListener(getDisabledComponentListener());
-//        playButton.setEnabled(false);
         JComponent playSep = createButtonSeparator();
         buttonSeparators.put(playButton, playSep);
             // Add the play/pause button to the panel
