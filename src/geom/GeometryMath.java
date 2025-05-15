@@ -766,6 +766,22 @@ public final class GeometryMath implements GeometryMathConstants{
                 p2.getX(),p2.getY(),src,curve);
     }
     /**
+     * This is used to calculate a control point on a cubic Bezier curve 
+     * when p1 is 1/3 and p2 is 2/3 of the way. <p>
+     * 
+     * https://web.archive.org/web/20131225210855/http://people.sc.fsu.edu/~jburkardt/html/bezier_interpolation.html
+     * 
+     * @param p0 The starting point of the curve.
+     * @param p1 The first point on the curve to pass through (1/3)
+     * @param p2 The second point on the curve to pass through (2/3)
+     * @param p3 The end point of the curve.
+     * @return A control point on the curve.
+     */
+    private static double getCubicBezierCtrlPointHelper(double p0, double p1, 
+            double p2, double p3){
+        return (-5*p0+18*p1-9*p2+2*p3)/6.0;
+    }
+    /**
      * 
      * https://web.archive.org/web/20131225210855/http://people.sc.fsu.edu/~jburkardt/html/bezier_interpolation.html
      * 
@@ -780,12 +796,16 @@ public final class GeometryMath implements GeometryMathConstants{
      */
     public static void getCubicBezierControlPoints(Point2D p0, Point2D p1, 
             Point2D p2, Point2D p3, Point2D controlP1, Point2D controlP2){
+            // Get the x-coordinate for the first control point
+        double x1 = getCubicBezierCtrlPointHelper(p0.getX(),p1.getX(),p2.getX(),p3.getX());
             // Get the y-coordinate for the first control point
-        double y1 = (-5*p0.getY()+18*p1.getY()-9*p2.getY()+2*p3.getY())/6;
+        double y1 = getCubicBezierCtrlPointHelper(p0.getY(),p1.getY(),p2.getY(),p3.getY());
+            // Get the x-coordinate for the second control point
+        double x2 = getCubicBezierCtrlPointHelper(p3.getX(),p2.getX(),p1.getX(),p0.getX());
             // Get the y-coordinate for the second control point
-        double y2 = (2*p0.getY()-9*p1.getY()+18*p2.getY()-5*p3.getY())/6;
-        controlP1.setLocation(p1.getX(),y1);
-        controlP2.setLocation(p2.getX(),y2);
+        double y2 = getCubicBezierCtrlPointHelper(p3.getY(),p2.getY(),p1.getY(),p0.getY());
+        controlP1.setLocation(x1,y1);
+        controlP2.setLocation(x2,y2);
     }
     /**
      * 
@@ -803,15 +823,14 @@ public final class GeometryMath implements GeometryMathConstants{
             // If the given CubicCurve2D object is null
         if (curve == null)
             curve = new CubicCurve2D.Double();
-            // This will get the first control point for the curve
-        Point2D pC1 = new Point2D.Double();
-            // This will get the second control point for the curve
-        Point2D pC2 = new Point2D.Double();
-            // Get the control points for the curve
-        getCubicBezierControlPoints(p0,p1,p2,p3,pC1,pC2);
-            // Set the curve to be between points p0 and p3, using the control 
-            // points pC1 and pC2.
-        curve.setCurve(p0, pC1, pC2, p3);
+            // Set the curve to be between points p0 and p3, and calculating 
+            // the control points for the curve
+        curve.setCurve(p0.getX(),p0.getY(),
+                    getCubicBezierCtrlPointHelper(p0.getX(),p1.getX(),p2.getX(),p3.getX()),
+                    getCubicBezierCtrlPointHelper(p0.getY(),p1.getY(),p2.getY(),p3.getY()),
+                    getCubicBezierCtrlPointHelper(p3.getX(),p2.getX(),p1.getX(),p0.getX()),
+                    getCubicBezierCtrlPointHelper(p3.getY(),p2.getY(),p1.getY(),p0.getY()),
+                p3.getX(),p3.getY());
         return curve;
     }
     /**
@@ -1340,6 +1359,41 @@ public final class GeometryMath implements GeometryMathConstants{
     public static Point2D getLinePointForY(Line2D line,double y,Point2D point){
         return getLinePointForY(line.getX1(),line.getY1(),
                 line.getX2(),line.getY2(),y,point);
+    }
+    /**
+     * This calculates the result of a square wave with the given frequency. The 
+     * value returned will be within the range of 0 and -2.
+     * @param freq The frequency for the square wave.
+     * @param x The point on the square wave to get.
+     * @return The value for the square wave at {@code x}, 0 for high, -2 for 
+     * low, and -1 for discontinuities.
+     */
+    private static double getSquareWaveImpl(double freq, double x){
+        return (2 * Math.floor(x/2 * freq) - Math.floor(x*freq));
+    }
+    /**
+     * This returns the value for the square wave with the given frequency for 
+     * the given point {@code x}.
+     * @param freq The frequency of the square wave.
+     * @param x The point on the square wave to get.
+     * @return 1 if the square wave is high, -1 if the square wave is low, and 0 
+     * for any discontinuities.
+     * @see #isSquareWaveHigh(double, double) 
+     */
+    public static double getSquareWave(double freq, double x){
+        return getSquareWaveImpl(freq,x) + 1;
+    }
+    /**
+     * This returns whether the square wave with the given frequency is high for 
+     * the given point {@code x}.
+     * @param freq The frequency of the square wave.
+     * @param x The point on the square wave to get.
+     * @return {@code true} if the square wave is high, {@code false} if the 
+     * square wave is low or is at a discontinuity.
+     * @see #getSquareWave(double, double) 
+     */
+    public static boolean isSquareWaveHigh(double freq, double x){
+        return getSquareWaveImpl(freq,x) == 0;
     }
     /**
      * This method bounds the given angle, in degrees, to be within the range of 
