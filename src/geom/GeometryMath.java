@@ -1341,6 +1341,43 @@ public final class GeometryMath implements GeometryMathConstants{
         return getLinePointForY(line.getX1(),line.getY1(),
                 line.getX2(),line.getY2(),y,point);
     }
+    /**
+     * This method bounds the given angle, in degrees, to be within the range of 
+     * 0 and {@value FULL_CIRCLE_DEGREES}, exclusive. If the given angle is 
+     * negative, then it will loop back to being positive.
+     * @param angle The angle to bound, in degrees.
+     * @return The angle, in degrees, limited to a range of 0 and {@value 
+     * FULL_CIRCLE_DEGREES}, exclusive.
+     * @see #boundRadians(double) 
+     * @see #FULL_CIRCLE_DEGREES
+     * @see #HALF_CIRCLE_DEGREES
+     * @see #QUARTER_CIRCLE_DEGREES
+     * @see #TWO_PI
+     * @see Math#PI
+     * @see #HALF_PI
+     */
+    public static double boundDegrees(double angle){
+        return ((angle % FULL_CIRCLE_DEGREES) + FULL_CIRCLE_DEGREES) % 
+                FULL_CIRCLE_DEGREES;
+    }
+    /**
+     * This method bounds the given angle, in radians, to be within the range of 
+     * 0 and 2<i>{@link Math#PI pi}</i>, exclusive. If the given angle is 
+     * negative, then it will loop back to being positive.
+     * @param angle The angle to bound, in radians.
+     * @return The angle, in radians, limited to a range of 0 and 2<i>pi</i>, 
+     * exclusive.
+     * @see #boundDegrees(double) 
+     * @see #FULL_CIRCLE_DEGREES
+     * @see #HALF_CIRCLE_DEGREES
+     * @see #QUARTER_CIRCLE_DEGREES
+     * @see #TWO_PI
+     * @see Math#PI
+     * @see #HALF_PI
+     */
+    public static double boundRadians(double angle){
+        return ((angle % TWO_PI) + TWO_PI) % TWO_PI;
+    }
     
     
     
