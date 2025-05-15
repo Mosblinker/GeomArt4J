@@ -24,4 +24,14 @@ public interface GeometryMathConstants {
      * degrees.
      */
     public static final double QUARTER_CIRCLE_DEGREES = FULL_CIRCLE_DEGREES/4.0;
+    /**
+     * This is 2<i>{@link Math#PI pi}</i>. This is equivalent to the maximum 
+     * angle for a circle, in radians.
+     */
+    public static final double TWO_PI = Math.PI * 2.0;
+    /**
+     * This is <i>{@link Math#PI pi}</i>/2. This is equivalent to the angle for 
+     * quarter of a circle, in radians.
+     */
+    public static final double HALF_PI = Math.PI / 2.0;
 }
