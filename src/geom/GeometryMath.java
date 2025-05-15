@@ -13,7 +13,7 @@ import java.util.function.DoubleUnaryOperator;
  * This is a library for math related to geometry.
  * @author Mosblinker
  */
-public final class GeometryMath {
+public final class GeometryMath implements GeometryMathConstants{
     /**
      * This is the default resolution for the {@link #getLineIntersection(
      * double, double, double, double, DoubleUnaryOperator, DoubleUnaryOperator, 
@@ -1394,6 +1394,233 @@ public final class GeometryMath {
      */
     public static boolean isSquareWaveHigh(double freq, double x){
         return getSquareWaveImpl(freq,x) == 0;
+    }
+    /**
+     * This method bounds the given angle, in degrees, to be within the range of 
+     * 0 and {@value FULL_CIRCLE_DEGREES}, exclusive. If the given angle is 
+     * negative, then it will loop back to being positive.
+     * @param angle The angle to bound, in degrees.
+     * @return The angle, in degrees, limited to a range of 0 and {@value 
+     * FULL_CIRCLE_DEGREES}, exclusive.
+     * @see #boundRadians(double) 
+     * @see #FULL_CIRCLE_DEGREES
+     * @see #HALF_CIRCLE_DEGREES
+     * @see #QUARTER_CIRCLE_DEGREES
+     * @see #TWO_PI
+     * @see Math#PI
+     * @see #HALF_PI
+     */
+    public static double boundDegrees(double angle){
+            // If the angle is already within range
+        if (angle >= 0.0 && angle < FULL_CIRCLE_DEGREES)
+            return angle;
+        return ((angle % FULL_CIRCLE_DEGREES) + FULL_CIRCLE_DEGREES) % 
+                FULL_CIRCLE_DEGREES;
+    }
+    /**
+     * This method bounds the given angle, in radians, to be within the range of 
+     * 0 and 2<i>{@link Math#PI pi}</i>, exclusive. If the given angle is 
+     * negative, then it will loop back to being positive.
+     * @param angle The angle to bound, in radians.
+     * @return The angle, in radians, limited to a range of 0 and 2<i>pi</i>, 
+     * exclusive.
+     * @see #boundDegrees(double) 
+     * @see #FULL_CIRCLE_DEGREES
+     * @see #HALF_CIRCLE_DEGREES
+     * @see #QUARTER_CIRCLE_DEGREES
+     * @see #TWO_PI
+     * @see Math#PI
+     * @see #HALF_PI
+     */
+    public static double boundRadians(double angle){
+            // If the angle is already within range
+        if (angle >= 0.0 && angle < TWO_PI)
+            return angle;
+        return ((angle % TWO_PI) + TWO_PI) % TWO_PI;
+    }
+    /**
+     * This returns a {@code Point2D} object with the given point on a polar 
+     * coordinate system converted to Cartesian coordinates with the pole 
+     * (origin) at ({@code x}, {@code y}).
+     * @param r The radius of the point on the polar coordinate system.
+     * @param p The azimuth of the point on the polar coordinate system, in 
+     * radians.
+     * @param x The x-coordinate of the pole.
+     * @param y The y-coordinate of the pole.
+     * @param point A {@code Point2D} object to reuse to store the resulting 
+     * coordinate, or null.
+     * @return A {@code Point2D} object with the given polar coordinate 
+     * converted into Cartesian coordinates.
+     * @see #FULL_CIRCLE_DEGREES
+     * @see Math#PI
+     * @see Math#toRadians(double) 
+     * @see Math#toDegrees(double) 
+     * @see #boundDegrees(double) 
+     * @see #boundRadians(double) 
+     * @see #polarToCartesian(double, double, Point2D, Point2D) 
+     * @see #polarToCartesian(double, double, Point2D) 
+     * @see #polarToCartesianDegrees(double, double, double, double, Point2D) 
+     * @see #polarToCartesianDegrees(double, double, Point2D, Point2D) 
+     * @see #polarToCartesianDegrees(double, double, Point2D) 
+     */
+    public static Point2D polarToCartesian(double r,double p,double x,double y, 
+            Point2D point){
+            // If the given point is null
+        if (point == null)
+            point = new Point2D.Double();
+            // Get the bounded azimuth in radians
+        p = boundRadians(p);
+            // Add the radius multiplied by the cosine of the azimuth to the 
+            // x-coordinate of the origin, and add the radius multiplied by the 
+            // sine of the azimuth to the y-coordinate of the origin
+        point.setLocation(x + r*Math.cos(p), y + r*Math.sin(p));
+        return point;
+    }
+    /**
+     * This returns a {@code Point2D} object with the given point on a polar 
+     * coordinate system converted to Cartesian coordinates with the pole 
+     * (origin) at (0, 0).
+     * @param r The radius of the point on the polar coordinate system.
+     * @param p The azimuth of the point on the polar coordinate system, in 
+     * radians.
+     * @param point A {@code Point2D} object to reuse to store the resulting 
+     * coordinate, or null.
+     * @return A {@code Point2D} object with the given polar coordinate 
+     * converted into Cartesian coordinates.
+     * @see #FULL_CIRCLE_DEGREES
+     * @see Math#PI
+     * @see Math#toRadians(double) 
+     * @see Math#toDegrees(double) 
+     * @see #boundDegrees(double) 
+     * @see #boundRadians(double) 
+     * @see #polarToCartesian(double, double, double, double, Point2D) 
+     * @see #polarToCartesian(double, double, Point2D, Point2D) 
+     * @see #polarToCartesianDegrees(double, double, double, double, Point2D) 
+     * @see #polarToCartesianDegrees(double, double, Point2D, Point2D) 
+     * @see #polarToCartesianDegrees(double, double, Point2D) 
+     */
+    public static Point2D polarToCartesian(double r, double p, Point2D point){
+        return polarToCartesian(r,p,0,0,point);
+    }
+    /**
+     * This returns a {@code Point2D} object with the given point on a polar 
+     * coordinate system converted to Cartesian coordinates with the given pole 
+     * (origin).
+     * @param r The radius of the point on the polar coordinate system.
+     * @param p The azimuth of the point on the polar coordinate system, in 
+     * radians.
+     * @param pole The {@code Point2D} object with the pole (origin) for the 
+     * radius, or null for a pole of (0, 0).
+     * @param point A {@code Point2D} object to reuse to store the resulting 
+     * coordinate, or null.
+     * @return A {@code Point2D} object with the given polar coordinate 
+     * converted into Cartesian coordinates.
+     * @see #FULL_CIRCLE_DEGREES
+     * @see Math#PI
+     * @see Math#toRadians(double) 
+     * @see Math#toDegrees(double) 
+     * @see #boundDegrees(double) 
+     * @see #boundRadians(double) 
+     * @see #polarToCartesian(double, double, double, double, Point2D) 
+     * @see #polarToCartesian(double, double, Point2D) 
+     * @see #polarToCartesianDegrees(double, double, double, double, Point2D) 
+     * @see #polarToCartesianDegrees(double, double, Point2D, Point2D) 
+     * @see #polarToCartesianDegrees(double, double, Point2D) 
+     */
+    public static Point2D polarToCartesian(double r, double p, Point2D pole, 
+            Point2D point){
+            // If the pole is null
+        if (pole == null)
+            return polarToCartesian(r,p,point);
+        return polarToCartesian(r,p,pole.getX(),pole.getY(),point);
+    }
+    /**
+     * This returns a {@code Point2D} object with the given point on a polar 
+     * coordinate system converted to Cartesian coordinates with the pole 
+     * (origin) at ({@code x}, {@code y}).
+     * @param r The radius of the point on the polar coordinate system.
+     * @param p The azimuth of the point on the polar coordinate system, in 
+     * degrees.
+     * @param x The x-coordinate of the pole.
+     * @param y The y-coordinate of the pole.
+     * @param point A {@code Point2D} object to reuse to store the resulting 
+     * coordinate, or null.
+     * @return A {@code Point2D} object with the given polar coordinate 
+     * converted into Cartesian coordinates.
+     * @see #FULL_CIRCLE_DEGREES
+     * @see Math#PI
+     * @see Math#toRadians(double) 
+     * @see Math#toDegrees(double) 
+     * @see #boundDegrees(double) 
+     * @see #boundRadians(double) 
+     * @see #polarToCartesian(double, double, double, double, Point2D) 
+     * @see #polarToCartesian(double, double, Point2D, Point2D) 
+     * @see #polarToCartesian(double, double, Point2D) 
+     * @see #polarToCartesianDegrees(double, double, Point2D, Point2D) 
+     * @see #polarToCartesianDegrees(double, double, Point2D) 
+     */
+    public static Point2D polarToCartesianDegrees(double r,double p,
+            double x,double y, Point2D point){
+        return polarToCartesian(r,Math.toRadians(boundDegrees(p)),x,y,point);
+    }
+    /**
+     * This returns a {@code Point2D} object with the given point on a polar 
+     * coordinate system converted to Cartesian coordinates with the pole 
+     * (origin) at (0, 0).
+     * @param r The radius of the point on the polar coordinate system.
+     * @param p The azimuth of the point on the polar coordinate system, in 
+     * degrees.
+     * @param point A {@code Point2D} object to reuse to store the resulting 
+     * coordinate, or null.
+     * @return A {@code Point2D} object with the given polar coordinate 
+     * converted into Cartesian coordinates.
+     * @see #FULL_CIRCLE_DEGREES
+     * @see Math#PI
+     * @see Math#toRadians(double) 
+     * @see Math#toDegrees(double) 
+     * @see #boundDegrees(double) 
+     * @see #boundRadians(double) 
+     * @see #polarToCartesian(double, double, double, double, Point2D) 
+     * @see #polarToCartesian(double, double, Point2D, Point2D) 
+     * @see #polarToCartesian(double, double, Point2D) 
+     * @see #polarToCartesianDegrees(double, double, double, double, Point2D) 
+     * @see #polarToCartesianDegrees(double, double, Point2D, Point2D) 
+     */
+    public static Point2D polarToCartesianDegrees(double r,double p,
+            Point2D point){
+        return polarToCartesianDegrees(r,p,0,0,point);
+    }
+    /**
+     * This returns a {@code Point2D} object with the given point on a polar 
+     * coordinate system converted to Cartesian coordinates with the given pole 
+     * (origin).
+     * @param r The radius of the point on the polar coordinate system.
+     * @param p The azimuth of the point on the polar coordinate system, in 
+     * degrees.
+     * @param pole The {@code Point2D} object with the pole (origin) for the 
+     * radius, or null for a pole of (0, 0).
+     * @param point A {@code Point2D} object to reuse to store the resulting 
+     * coordinate, or null.
+     * @return A {@code Point2D} object with the given polar coordinate 
+     * converted into Cartesian coordinates.
+     * @see #FULL_CIRCLE_DEGREES
+     * @see Math#PI
+     * @see Math#toRadians(double) 
+     * @see Math#toDegrees(double) 
+     * @see #boundDegrees(double) 
+     * @see #boundRadians(double) 
+     * @see #polarToCartesian(double, double, double, double, Point2D) 
+     * @see #polarToCartesian(double, double, Point2D, Point2D) 
+     * @see #polarToCartesian(double, double, Point2D) 
+     * @see #polarToCartesianDegrees(double, double, double, double, Point2D) 
+     * @see #polarToCartesianDegrees(double, double, Point2D) 
+     */
+    public static Point2D polarToCartesianDegrees(double r, double p, 
+            Point2D pole, Point2D point){
+            // If the pole is null
+        if (pole == null)
+            return polarToCartesianDegrees(r,p,point);
+        return polarToCartesianDegrees(r,p,pole.getX(),pole.getY(),point);
     }
     
     
