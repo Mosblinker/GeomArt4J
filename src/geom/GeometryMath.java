@@ -13,7 +13,7 @@ import java.util.function.DoubleUnaryOperator;
  * This is a library for math related to geometry.
  * @author Mosblinker
  */
-public final class GeometryMath {
+public final class GeometryMath implements GeometryMathConstants{
     /**
      * This is the default resolution for the {@link #getLineIntersection(
      * double, double, double, double, DoubleUnaryOperator, DoubleUnaryOperator, 
