@@ -378,7 +378,7 @@ public class TwoAxisSlider extends JPanel{
      * component has changed.
      */
     protected void fireStateChanged(){
-            // This constructs the evet to fire
+            // This constructs the event to fire
         ChangeEvent evt = new ChangeEvent(this);
             // A for loop to go through the change listeners
         for (ChangeListener l : listenerList.getListeners(ChangeListener.class)){
