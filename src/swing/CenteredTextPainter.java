@@ -149,7 +149,7 @@ public class CenteredTextPainter extends ListenedPainter<String>{
                 // Draw the line of text using the centered x-coordinate, and 
                 // subtracting the negative y-coordinate from the top corner for 
                 // the current line to get the y-coordinate for the baseline 
-            g.drawString(lines.get(i), (float)bounds.getX(), (float)(y-bounds.getY()));
+            paintLine(g,lines.get(i), bounds.getX(), y-bounds.getY());
                 // Get the y-coordinate for the next line of text
             y += bounds.getHeight() + spacing;
         }
@@ -193,6 +193,16 @@ public class CenteredTextPainter extends ListenedPainter<String>{
         g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, 
                 RenderingHints.VALUE_STROKE_PURE);
         return g;
+    }
+    /**
+     * 
+     * @param g
+     * @param text
+     * @param x
+     * @param y 
+     */
+    protected void paintLine(Graphics2D g, String text, double x, double y){
+        g.drawString(text, (float)x, (float)y);
     }
     @Override
     protected String paramString(){
