@@ -1369,7 +1369,7 @@ public final class GeometryMath implements GeometryMathConstants{
      * low, and -1 for discontinuities.
      */
     private static double getSquareWaveImpl(double freq, double x){
-        return (2 * Math.floor(x/2 * freq) - Math.floor(x*freq));
+        return (2 * Math.floor(x * freq) - Math.floor(2*x*freq));
     }
     /**
      * This returns the value for the square wave with the given frequency for 
