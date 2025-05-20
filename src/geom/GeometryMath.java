@@ -135,6 +135,35 @@ public final class GeometryMath implements GeometryMathConstants{
         return m * x + b;
     }
     /**
+     * This gets the y-coordinate for the given x-coordinate, using the 
+     * point-slope formula of a line and the given point on the line.
+     * @param m The slope of the line
+     * @param x The x-coordinate of the point on the line to get the 
+     * y-coordinate of.
+     * @param x1 The x-coordinate of a point on the line.
+     * @param y1 The y-coordinate of a point on the line.
+     * @return The y-coordinate of the point on the line with the given 
+     * x-coordinate.
+     */
+    public static double getLineY(double m,double x,double x1,double y1){
+            // Calculate the y-coordinate using point-slope formula 
+            // y = m(x - x1) + y1
+        return getLineY(m, x - x1, y1);
+    }
+    /**
+     * This gets the y-coordinate for the given x-coordinate, using the 
+     * point-slope formula of a line and the given point on the line.
+     * @param m The slope of the line
+     * @param x The x-coordinate of the point on the line to get the 
+     * y-coordinate of.
+     * @param p A point on the line.
+     * @return The y-coordinate of the point on the line with the given 
+     * x-coordinate.
+     */
+    public static double getLineY(double m, double x, Point2D p){
+        return GeometryMath.getLineY(m,x,p.getX(),p.getY());
+    }
+    /**
      * This gets the x-coordinate for the given y-coordinate on a line, using 
      * the line formula {@code y = mx + b}.
      * @param m The slope of the line
@@ -146,6 +175,35 @@ public final class GeometryMath implements GeometryMathConstants{
      */
     public static double getLineX(double m, double y, double b){
         return (y - b) / m;
+    }
+    /**
+     * This gets the x-coordinate for the given y-coordinate, using the 
+     * point-slope formula of a line and the given point on the line.
+     * @param m The slope of the line
+     * @param y The y-coordinate of the point on the line to get the 
+     * x-coordinate of.
+     * @param x1 The x-coordinate of a point on the line.
+     * @param y1 The y-coordinate of a point on the line.
+     * @return The x-coordinate of the point on the line with the given 
+     * y-coordinate.
+     */
+    public static double getPointSlopeX(double m,double y,double x1,double y1){
+        // Calculate the x-coordinate using x = (y - b) / m (b is the line 
+        // coefficient)
+        return getLineX(m,y,getLineCoefficient(m,x1,y1));
+    }
+    /**
+     * This gets the x-coordinate for the given y-coordinate, using the 
+     * point-slope formula of a line and the given point on the line.
+     * @param m The slope of the line
+     * @param y The y-coordinate of the point on the line to get the 
+     * x-coordinate of.
+     * @param p A point on the line.
+     * @return The x-coordinate of the point on the line with the given 
+     * y-coordinate.
+     */
+    public static double getPointSlopeX(double m,double y,Point2D p){
+        return getPointSlopeX(m,y,p.getX(),p.getY());
     }
     /**
      * This calculates the x-coordinates for points on the given ellipse for the 
@@ -1299,8 +1357,8 @@ public final class GeometryMath implements GeometryMathConstants{
             // Get the slope of the line.
         double m = getLineSlope(x1,y1,x2,y2);
             // Set the point to have the given x, and calculate the y-coordinate 
-            // using y = mx + b (b is the line coefficient)
-        point.setLocation(x, m * x + getLineCoefficient(m,x1,y1));
+            // using the point-slope formula
+        point.setLocation(x, getLineY(m,x,x1,y1));
         return point;
     }
     /**
@@ -1356,8 +1414,8 @@ public final class GeometryMath implements GeometryMathConstants{
             // Get the slope of the line.
         double m = getLineSlope(x1,y1,x2,y2);
             // Set the point to have the given y, and calculate the x-coordinate 
-            // using x = (y - b) / m (b is the line coefficient)
-        point.setLocation((y - getLineCoefficient(m,x1,y1))/ m, y);
+            // using the point-slope formula
+        point.setLocation(getPointSlopeX(m,y,x1,y1), y);
         return point;
     }
     /**
