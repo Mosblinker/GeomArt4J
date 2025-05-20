@@ -122,6 +122,32 @@ public final class GeometryMath implements GeometryMathConstants{
         return getLineCoefficient(m,p.getX(),p.getY());
     }
     /**
+     * This gets the y-coordinate for the given x-coordinate on a line, using 
+     * the line formula {@code y = mx + b}.
+     * @param m The slope of the line
+     * @param x The x-coordinate of the point on the line to get the 
+     * y-coordinate of.
+     * @param b The coefficient for the line.
+     * @return The y-coordinate of the point on the line with the given 
+     * x-coordinate.
+     */
+    public static double getLineY(double m, double x, double b){
+        return m * x + b;
+    }
+    /**
+     * This gets the x-coordinate for the given y-coordinate on a line, using 
+     * the line formula {@code y = mx + b}.
+     * @param m The slope of the line
+     * @param y The y-coordinate of the point on the line to get the 
+     * x-coordinate of.
+     * @param b The coefficient for the line.
+     * @return The x-coordinate of the point on the line with the given 
+     * y-coordinate.
+     */
+    public static double getLineX(double m, double y, double b){
+        return (y - b) / m;
+    }
+    /**
      * This calculates the x-coordinates for points on the given ellipse for the 
      * given y-coordinate, and stores them in the given Point2D objects {@code 
      * p0} and {@code p1}. This is equivalent to determining the points where 
