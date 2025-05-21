@@ -34,4 +34,8 @@ public interface GeometryMathConstants {
      * quarter of a circle, in radians.
      */
     public static final double HALF_PI = Math.PI / 2.0;
+    /**
+     * This is the value for the golden ratio.
+     */
+    public static final double GOLDEN_RATIO = (1.0 + Math.sqrt(5)) / 2.0;
 }
