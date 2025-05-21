@@ -1706,6 +1706,50 @@ public final class GeometryMath implements GeometryMathConstants{
             return polarToCartesianDegrees(r,p,point);
         return polarToCartesianDegrees(r,p,pole.getX(),pole.getY(),point);
     }
+    /**
+     * This calculates the radius for a point in polar coordinates for the given 
+     * point in Cartesian coordinates.
+     * @param y The ordinate coordinate.
+     * @param x The abscissa coordinate.
+     * @return The radius of the point (<i>r</i>, <i>theta</i>) in polar 
+     * coordinates that corresponds to the point (<i>x</i>, <i>y</i>) in 
+     * Cartesian coordinates.
+     * @see #getPolarRadius(Point2D) 
+     * @see Math#atan2(double, double) 
+     * @see #atan2(Point2D) 
+     */
+    public static double getPolarRadius(double y, double x){
+        return Math.sqrt(x*x + y*y);
+    }
+    /**
+     * This calculates the radius for a point in polar coordinates for the given 
+     * point in Cartesian coordinates.
+     * @param point The point in Cartesian coordinates.
+     * @return The radius of the point (<i>r</i>, <i>theta</i>) in polar 
+     * coordinates that corresponds to the given point in Cartesian coordinates.
+     * @see #getPolarRadius(double, double) 
+     * @see Math#atan2(double, double) 
+     * @see #atan2(Point2D) 
+     */
+    public static double getPolarRadius(Point2D point){
+        return getPolarRadius(point.getY(),point.getX());
+    }
+    /**
+     * This calculates the azimuth for a point in polar coordinates for the 
+     * given point in Cartesian coordinates. This is equivalent to calling 
+     * {@link Math#atan2(double, double) Math.atan2} on the coordinates for the 
+     * given point.
+     * @param point The point in Cartesian coordinates.
+     * @return The <i>theta</i> component of the point (<i>r</i>, <i>theta</i>) 
+     * in polar coordinates that corresponds to the given point in Cartesian 
+     * coordinates.
+     * @see Math#atan2(double, double) 
+     * @see #getPolarRadius(double, double) 
+     * @see #getPolarRadius(Point2D) 
+     */
+    public static double atan2(Point2D point){
+        return Math.atan2(point.getY(), point.getX());
+    }
     
     
     
